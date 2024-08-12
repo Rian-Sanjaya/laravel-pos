@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryContoller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', fn() => redirect()->route('login'));
+// Route::get('/', fn() => redirect()->route('login'));
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 Route::middleware([
     'auth:sanctum',
@@ -27,4 +32,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('home');
     })->name('dashboard');
+});
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/kategori/data', [CategoryController::class, 'data'])->name('kategori.data');
+    // Route::get('/kategori', 'App\Http\Controllers\CategoryController@index')->name('kategori.index');
+    Route::resource('/kategori', 'App\Http\Controllers\CategoryController');
 });
