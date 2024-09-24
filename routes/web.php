@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryContoller;
+use App\Http\Controllers\ProductContoller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +36,12 @@ Route::middleware([
 });
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/kategori/data', [CategoryController::class, 'data'])->name('kategori.data');
+    Route::get('/kategori/data', 'App\Http\Controllers\CategoryController@data')->name('kategori.data');
     // Route::get('/kategori', 'App\Http\Controllers\CategoryController@index')->name('kategori.index');
     Route::resource('/kategori', 'App\Http\Controllers\CategoryController');
+
+    Route::get('/produk/data', 'App\Http\Controllers\ProductController@data')->name('produk.data');
+    Route::post('/produk/delete-selected', 'App\Http\Controllers\ProductController@deleteSelected')->name('produk.delete_selected');
+    Route::post('/produk/cetak-barcode', 'App\Http\Controllers\ProductController@cetakBarcode')->name('produk.cetak_barcode');
+    Route::resource('/produk', 'App\Http\Controllers\ProductController');
 });
